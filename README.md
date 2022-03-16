@@ -17,6 +17,6 @@ End of the speech will be detected automatically if the audio input is empty for
 python main.py
 ```
 
-The examples to read out aloud will be displayed on the command line. There are a total of 12 intent samples to be recorded, and the default setting is to repeat all sample 10 times (adjust with `--num_repeat` if needed). The speaker of the aircraft (e.g., skyhawk 737), the airport name (e.g., butler / butler county) can also be changed using the corresponding flags (`--speaker`, `--prefix`, `--suffix`. 
+The examples to read out aloud will be displayed on the command line. There are a total of 12 intent samples to be recorded, and the default setting is to repeat all sample 10 times (adjust with `--num_repeat` if needed). The speaker of the aircraft (e.g., skyhawk 737), the airport name (e.g., butler / butler county) can also be changed using the corresponding flags (`--speaker`, `--prefix`, `--suffix`). 
 
 All outputs will be saved to the `recording` directory.
