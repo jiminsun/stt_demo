@@ -2,8 +2,8 @@ import os
 import time
 import queue
 import argparse
-from utils import *
-from record_audio import listen, write_wav_file
+from data_collection.utils import *
+from data_collection.record_audio import listen, write_wav_file
 
 
 def main(args):
