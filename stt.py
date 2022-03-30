@@ -1,18 +1,20 @@
+import time
 import argparse
 import warnings
-import pandas as pd
 from tqdm import tqdm
 import soundfile as sf
 from transformers import Speech2TextForConditionalGeneration, Speech2TextProcessor
 
 from utils import load_wav, list_wav_files, parse_index, SAMPLE_RATE
 from jiwer import wer, cer
+from getradio import GetRadio
 
 warnings.filterwarnings("ignore")
 
 MODEL_NAME = 'facebook/s2t-small-librispeech-asr'
 PREFIX = 'butler traffic skyhawk seven three seven'
 SUFFIX = 'butler traffic'
+RECORD_TIME_IN_SECONDS = 5
 
 
 class SpeechToText:
@@ -24,11 +26,18 @@ class SpeechToText:
             model_config
         )
         self.sampling_rate = sampling_rate
+        self.recorder = GetRadio()
 
     def map_to_array(self, batch):
         speech, _ = sf.read(batch["file"])
         batch["speech"] = speech
         return batch
+
+    def record(self, seconds):
+        self.recorder.start_recording()
+        time.sleep(seconds)
+        frames = self.recorder.stop_recording()
+        return frames
 
     def load_labels(self, txt_fname):
         with open(txt_fname, 'r') as f:
@@ -55,6 +64,8 @@ def main(args):
     stt_model = SpeechToText(MODEL_NAME)
 
     if len(list_wav_files(args.data_dir)):
+        import pandas as pd
+
         # load model
         # get test audio
         indices = []
@@ -70,7 +81,6 @@ def main(args):
             # Append results
             indices.append(audio_idx)
             predictions.append(prediction)
-
 
         prediction_df = pd.DataFrame({
             'index': indices,
@@ -103,6 +113,12 @@ def main(args):
     elif args.test_file is not None:
         wav_file = load_wav(args.test_file, normalize=True)
         text = stt_model.predict(wav_file)
+        print("===== Transcribed output ")
+        print(text)
+
+    else:
+        data = stt_model.record(RECORD_TIME_IN_SECONDS)
+        text = stt_model.predict(data)
         print("===== Transcribed output ")
         print(text)
 
