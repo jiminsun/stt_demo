@@ -69,7 +69,6 @@ prompt-toolkit==3.0.28
 ptyprocess==0.7.0
 pure-eval==0.2.2
 pyarrow==7.0.0
-PyAudio==0.2.11
 pycparser==2.21
 Pygments==2.11.2
 pyparsing==3.0.7
@@ -89,6 +88,7 @@ Send2Trash==1.8.0
 sentencepiece==0.1.96
 six==1.16.0
 SoundFile==0.10.3.post1
+sounddevice==0.4.4
 stack-data==0.2.0
 terminado==0.13.1
 testpath==0.5.0
