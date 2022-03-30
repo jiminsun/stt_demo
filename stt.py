@@ -3,10 +3,12 @@ import argparse
 import warnings
 from tqdm import tqdm
 import soundfile as sf
+
+import torch
 from transformers import Speech2TextForConditionalGeneration, Speech2TextProcessor
+from jiwer import wer, cer
 
 from utils import load_wav, list_wav_files, parse_index, SAMPLE_RATE
-from jiwer import wer, cer
 from getradio import GetRadio
 
 warnings.filterwarnings("ignore")
@@ -27,6 +29,12 @@ class SpeechToText:
         )
         self.sampling_rate = sampling_rate
         self.recorder = GetRadio()
+
+        if torch.cuda.is_available():
+            self.device = 'cuda:0'
+        else:
+            self.device = 'cpu'
+        self.model.to(self.device)
 
     def map_to_array(self, batch):
         speech, _ = sf.read(batch["file"])
@@ -50,7 +58,7 @@ class SpeechToText:
             data,
             sampling_rate=self.sampling_rate,
             return_tensors="pt"
-        )
+        ).to(self.device)
         generated_ids = self.model.generate(
             inputs=inputs["input_features"],
             attention_mask=inputs["attention_mask"]
