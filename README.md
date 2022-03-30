@@ -12,6 +12,7 @@ python stt.py --test_file $WAV_FILE
 ```
 
 2. Recording and transcribing on the fly
+This will record your speech for five seconds by default.
 ```
 python stt.py
 ```
