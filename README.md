@@ -1,7 +1,7 @@
 # stt_demo
 
 
-## Running Speech-to-text
+## Testing Speech-to-text
 
 ```
 pip install -r requirements.txt
@@ -21,7 +21,7 @@ This will record your speech for five seconds by default.
 python stt.py
 ```
 
-## Running Text-to-speech
+## Testing Text-to-speech
 ```
 bash install.sh
 ```
