@@ -11,12 +11,13 @@ fi
   
 git clone https://github.com/pytorch/fairseq.git
 cd fairseq
-pip install --editable ./
+pip install ./
 
 
-# Overwrite speech_generator.py with the edited version
-cd $STT_ROOT
+
 pip install sounddevice
 pip install g2p-en
 
-cp speech_generator.py fairseq/fairseq/
+# Overwrite speech_generator.py with the edited version
+cd $STT_ROOT
+# cp speech_generator.py fairseq/fairseq/
