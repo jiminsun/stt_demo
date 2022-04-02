@@ -38,9 +38,9 @@ hydra-core==1.0.7
 idna==3.3
 inflect
 ipykernel
-ipython==8.0.1
-ipython-genutils==0.2.0
-ipywidgets==7.6.5
+ipython
+ipython-genutils
+ipywidgets
 jedi==0.18.1
 Jinja2==3.0.3
 jiwer==2.3.0
@@ -68,7 +68,7 @@ numba==0.55.1
 numpy==1.21.5
 omegaconf==2.0.6
 packaging==21.3
-pandas==1.4.1
+pandas
 pandocfilters==1.5.0
 parso==0.8.3
 pathspec==0.9.0
@@ -99,7 +99,7 @@ resampy==0.2.2
 sacrebleu==2.0.0
 sacremoses==0.0.47
 scikit-learn==1.0.2
-scipy==1.8.0
+scipy
 Send2Trash==1.8.0
 sentencepiece==0.1.96
 six==1.16.0
