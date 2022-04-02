@@ -36,7 +36,7 @@ g2p-en==2.1.0
 huggingface-hub==0.4.0
 hydra-core==1.0.7
 idna==3.3
-inflect==5.4.0
+inflect
 ipykernel==6.9.1
 ipython==8.0.1
 ipython-genutils==0.2.0
