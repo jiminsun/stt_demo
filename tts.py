@@ -1,4 +1,7 @@
 import argparse
+
+import torch.cuda
+
 from fairseq.checkpoint_utils import load_model_ensemble_and_task_from_hf_hub
 from fairseq.models.text_to_speech.hub_interface import TTSHubInterface
 import IPython.display as ipd
@@ -12,6 +15,7 @@ from pydub import AudioSegment
 
 class TextToSpeech:
     def __init__(self):
+        self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
         models, config, task = load_model_ensemble_and_task_from_hf_hub(
             'facebook/fastspeech2-en-ljspeech',
             arg_overrides={
@@ -19,7 +23,7 @@ class TextToSpeech:
                 'fp16': False
             }
         )
-        self.model = models
+        self.model = models.to(self.device)
         self.task = task
         TTSHubInterface.update_cfg_with_data_cfg(
             config,
@@ -34,7 +38,7 @@ class TextToSpeech:
         sample = TTSHubInterface.get_model_input(
             self.task,
             input_text
-        )
+        ).to(self.device)
 
         wav, rate = TTSHubInterface.get_prediction(
             self.task,
