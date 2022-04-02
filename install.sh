@@ -1,4 +1,4 @@
-sudo apt-get install libportaudio2 -y
+sudo apt-get install -y libportaudio2 ffmpeg
 
 
 ROOT=$PWD
