@@ -23,7 +23,7 @@ class TextToSpeech:
                 'fp16': False
             }
         )
-        self.model = models.to(self.device)
+        self.model = models[0].to(self.device)
         self.task = task
         TTSHubInterface.update_cfg_with_data_cfg(
             config,
