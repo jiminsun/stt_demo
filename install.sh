@@ -9,6 +9,7 @@ pip install sounddevice
 pip install g2p-en
 
 if [ -f "$STT_ROOT/fairseq" ]; then
+  echo "deleting previously installed fairseq codebase"
   rm -rf $STT_ROOT/fairseq
 fi
   
@@ -17,5 +18,5 @@ cd fairseq
 pip install ./
 
 # Overwrite speech_generator.py with the edited version
-# cd $STT_ROOT
+cd $STT_ROOT
 # cp speech_generator.py fairseq/fairseq/
