@@ -83,7 +83,6 @@ protobuf==3.19.4
 ptyprocess==0.7.0
 pure-eval==0.2.2
 pyarrow==7.0.0
-PyAudio==0.2.11
 pycparser==2.21
 pydub==0.25.1
 Pygments==2.11.2
