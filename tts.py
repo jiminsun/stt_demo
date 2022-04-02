@@ -46,7 +46,7 @@ class TextToSpeech:
         
         wav, rate = TTSHubInterface.get_prediction(
             self.task,
-            [self.model],
+            self.model,
             self.generator,
             sample
         )
