@@ -23,8 +23,6 @@ class TextToSpeech:
                 'fp16': False
             }
         )
-        print(type(models))
-        print(models)
         self.model = models[0]
         self.model = self.model.to(self.device)
         self.task = task
@@ -33,7 +31,7 @@ class TextToSpeech:
             task.data_cfg
         )
         self.generator = task.build_generator(
-            self.model,
+            [self.model],
             config
         )
 
@@ -43,9 +41,12 @@ class TextToSpeech:
             input_text
         )
 
+        sample['net_input']['src_tokens'] = sample['net_input']['src_tokens'].to(self.device)
+        sample['net_input']['src_lengths'] = sample['net_input']['src_lengths'].to(self.device)
+        
         wav, rate = TTSHubInterface.get_prediction(
             self.task,
-            self.model,
+            [self.model],
             self.generator,
             sample
         )
