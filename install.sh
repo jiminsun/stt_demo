@@ -8,10 +8,9 @@ pip install -r requirements.txt
 pip install sounddevice
 pip install g2p-en
 
-echo "$STT_ROOT/fairseq"
-if [ -f "$STT_ROOT/fairseq" ]; then
+if [ -f "./fairseq" ]; then
   echo "deleting previously installed fairseq codebase"
-  rm -rf $STT_ROOT/fairseq
+  rm -rf ./fairseq
 fi
   
 git clone https://github.com/pytorch/fairseq.git
