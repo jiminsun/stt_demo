@@ -23,7 +23,10 @@ class TextToSpeech:
                 'fp16': False
             }
         )
-        self.model = models[0].to(self.device)
+        print(type(models))
+        print(models)
+        self.model = models[0]
+        self.model = self.model.to(self.device)
         self.task = task
         TTSHubInterface.update_cfg_with_data_cfg(
             config,
@@ -38,7 +41,7 @@ class TextToSpeech:
         sample = TTSHubInterface.get_model_input(
             self.task,
             input_text
-        ).to(self.device)
+        )
 
         wav, rate = TTSHubInterface.get_prediction(
             self.task,
