@@ -37,6 +37,7 @@ huggingface-hub==0.4.0
 hydra-core==1.0.7
 idna==3.3
 inflect
+ipykernel
 ipython==8.0.1
 ipython-genutils==0.2.0
 ipywidgets==7.6.5
