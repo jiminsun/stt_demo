@@ -8,7 +8,7 @@ pip install -r requirements.txt
 pip install sounddevice
 pip install g2p-en
 
-if [ -f "./fairseq" ]; then
+if [ -d "./fairseq" ]; then
   echo "deleting previously installed fairseq codebase"
   rm -rf ./fairseq
 fi
