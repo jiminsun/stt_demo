@@ -1,54 +1,44 @@
 import argparse
-
+import ast
+import os
 import torch.cuda
+import yaml
+import pickle
+from argparse import Namespace
 
-from fairseq.checkpoint_utils import load_model_ensemble_and_task_from_hf_hub
+import tts
+from fairseq import checkpoint_utils, options, tasks, utils
+from fairseq.checkpoint_utils import load_model_ensemble_and_task_from_hf_hub, load_model_ensemble_and_task
 from fairseq.models.text_to_speech.hub_interface import TTSHubInterface
-import IPython.display as ipd
-import sounddevice as sd
+from fairseq.models.text_to_speech.vocoder import GriffinLimVocoder, HiFiGANVocoder
+from fairseq.models.text_to_speech.fastspeech2 import FastSpeech2Model
+from fairseq.speech_generator import AutoRegressiveSpeechGenerator
 from scipy.io.wavfile import write
 from pydub.playback import play
 from pydub import AudioSegment
+from pathlib import Path
+from fairseq.data.audio.data_cfg import S2TDataConfig
 
 # https://github.com/pytorch/fairseq/blob/main/examples/speech_synthesis/docs/ljspeech_example.md
+
+CKPT_DIR = './fastspeech2_model'
 
 
 class TextToSpeech:
     def __init__(self):
         self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-        models, config, task = load_model_ensemble_and_task_from_hf_hub(
-            'facebook/fastspeech2-en-ljspeech',
-            arg_overrides={
-                'vocoder': 'hifigan',
-                'fp16': False
-            }
-        )
-        self.model = models[0]
-        self.model = self.model.to(self.device)
-        self.task = task
-        TTSHubInterface.update_cfg_with_data_cfg(
-            config,
-            task.data_cfg
-        )
-        self.generator = task.build_generator(
-            [self.model],
-            config
+        self.tts_interface = FastSpeech2Model.from_pretrained(
+            model_name_or_path=CKPT_DIR,
+            checkpoint_file="pytorch_model.pt",
+            data_name_or_path=".",
+            config_yaml="config.yaml",
+            vocoder="hifigan",
+            fp16=False,
         )
 
     def predict(self, input_text):
-        sample = TTSHubInterface.get_model_input(
-            self.task,
+        wav, rate = self.tts_interface.predict(
             input_text
-        )
-
-        sample['net_input']['src_tokens'] = sample['net_input']['src_tokens'].to(self.device)
-        sample['net_input']['src_lengths'] = sample['net_input']['src_lengths'].to(self.device)
-        
-        wav, rate = TTSHubInterface.get_prediction(
-            self.task,
-            self.model,
-            self.generator,
-            sample
         )
         wav = wav.cpu().numpy()
         audio_segment = AudioSegment(
